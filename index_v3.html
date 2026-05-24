@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Dev - Ingénierie & Solutions Numériques</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- VARIABLES DE COULEURS --- */
+        :root {
+            --bg-darkest-blue: #020513; /* Bleu nuit extrêmement profond (Haut-Droite) */
+            --bg-mid-blue: #081230; /* Bleu sombre de transition (Milieu) */
+            --bg-purple: #3b0075; /* Violet vibrant (Bas-Gauche) */
+            --text-light: #ffffff;
+            --text-muted: #a395cc;
+            --accent: #9d4edd;
+        }
+
+        /* --- STYLES GLOBAUX --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Space Mono', monospace;
+            /* Le dégradé part du haut à droite vers le bas à gauche. 
+               Le bleu domine jusqu'à 65% de l'écran avant que le violet n'apparaisse. */
+            background: linear-gradient(to bottom left, var(--bg-darkest-blue) 0%, var(--bg-mid-blue) 65%, var(--bg-purple) 100%);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 90%;
+            padding: 2rem;
+            z-index: 10;
+        }
+
+        /* --- LOGO & HEADER --- */
+        .logo-container {
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Taille légèrement augmentée (92px au lieu de 80px) */
+        .logo-svg {
+            width: 92px;
+            height: 92px;
+            filter: drop-shadow(0px 0px 10px rgba(255,255,255,0.2));
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: 3px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            margin-bottom: 3rem;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            backdrop-filter: blur(5px);
+        }
+
+        button:hover, button.active-btn {
+            background: var(--text-light);
+            color: var(--bg-darkest-blue);
+            border-color: var(--text-light);
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+
+        /* --- SECTIONS DE CONTENU --- */
+        .content-section {
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 2.5rem;
+            border-radius: 8px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 2rem;
+            text-align: left;
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-section h3 {
+            margin-top: 0;
+            color: var(--text-light);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        li span {
+            color: var(--accent);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            margin-top: 2rem;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: var(--text-light);
+            text-decoration: none;
+            border-bottom: 1px dashed var(--text-muted);
+            padding-bottom: 2px;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* --- ANIMATIONS D'OUVERTURE --- */
+        .intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000000;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Les nouvelles valeurs d'animation : 1.5s de durée, 0.5s de délai */
+            animation: slideUpOut 1.5s 0.5s forwards cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        @keyframes slideUpOut {
+            to { transform: translateY(-100%); }
+        }
+
+        .fade-in-element {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInSlide 1s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .delay-1 { animation-delay: 1.6s; }
+        .delay-2 { animation-delay: 1.8s; }
+        .delay-3 { animation-delay: 2.0s; }
+        
+        @keyframes fadeInSlide {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="intro-overlay"></div>
+
+    <div class="container">
+        
+        <header class="fade-in-element delay-1">
+            <div class="logo-container">
+                <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 15 80 L 50 25 L 85 80" stroke="#ffffff" stroke-width="12" fill="none" stroke-linejoin="miter" stroke-linecap="square"/>
+                </svg>
+            </div>
+            <h1>AURA DEV</h1>
+            <h2>INGÉNIERIE & SOLUTIONS NUMÉRIQUES</h2>
+        </header>
+
+        <nav class="fade-in-element delay-2">
+            <button id="btn-services" onclick="showSection('services', 'btn-services')">Expertise</button>
+            <button id="btn-projects" onclick="showSection('projects', 'btn-projects')">Projets</button>
+        </nav>
+
+        <main class="fade-in-element delay-3">
+            
+            <section id="services" class="content-section">
+                <h3>Nos domaines d'intervention</h3>
+                <ul>
+                    <li>
+                        <span>Ingénierie Logicielle Web</span>
+                        Création de sites vitrines élégants et développement d'applications web adaptées à vos besoins.
+                    </li>
+                    <li>
+                        <span>Automatisation & Communauté</span>
+                        Développement de bots Discord sur-mesure : mini-jeu ou gestion de vos communautés.
+                    </li>
+                    <li>
+                        <span>Solutions Algorithmiques Financières</span>
+                        Conception d'outils d'analyse de marché de crypto et ingénierie de bots de trading.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="projects" class="content-section">
+                <h3>Nos réalisations</h3>
+                <p>Notre portfolio est en cours de construction.<br><br>De nouveaux projets liés à l'écosystème Discord et au développement d'infrastructures web seront ajoutés ici très prochainement.</p>
+            </section>
+
+        </main>
+
+        <footer class="fade-in-element delay-3">
+            <a href="mailto:contact@auradev.fr">contact@auradev.fr</a>
+        </footer>
+
+    </div>
+
+    <script>
+        function showSection(sectionId, btnId) {
+            const targetSection = document.getElementById(sectionId);
+            const targetBtn = document.getElementById(btnId);
+
+            // 1. Si on clique sur un bouton DÉJÀ ACTIF, on ferme tout
+            if (targetBtn.classList.contains('active-btn')) {
+                targetSection.classList.remove('active');
+                targetBtn.classList.remove('active-btn');
+                return; // On arrête le script ici pour rester sur la page d'accueil vide
+            }
+
+            // 2. SINON, on cache d'abord toutes les sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // On éteint tous les boutons
+            const buttons = document.querySelectorAll('nav button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active-btn');
+            });
+
+            // Et on affiche la bonne section
+            targetSection.classList.add('active');
+            targetBtn.classList.add('active-btn');
+        }
+    </script>
+</body>
+</html>
