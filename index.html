@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura Dev</title>
+    <!-- Importation d'une police très propre et moderne (Inter) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505; /* Noir presque pur */
+            color: #ffffff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Effet de lumière subtil en arrière-plan */
+        .glow {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 60%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content {
+            text-align: center;
+            z-index: 1;
+            /* Animation d'apparition fluide */
+            animation: fadeIn 2s ease-out forwards;
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em; /* Espacement large pour le côté luxe/pro */
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            /* Dégradé métallique subtil sur le texte */
+            background: linear-gradient(135deg, #ffffff 0%, #9ca3af 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #6b7280;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 3.5rem;
+        }
+
+        /* Bouton fantôme (Ghost button) élégant */
+        .btn-contact {
+            display: inline-block;
+            padding: 0.9rem 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 3px; /* Coins très peu arrondis pour un côté sérieux */
+            transition: all 0.4s ease;
+            background: transparent;
+        }
+
+        .btn-contact:hover {
+            background-color: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow"></div>
+    <div class="content">
+        <h1>Aura Dev</h1>
+        <p>Ingénierie & Solutions Numériques</p>
+        
+        <a href="mailto:contact@auradev.fr" class="btn-contact">Nous contacter</a>
+    </div>
+</body>
+</html>
