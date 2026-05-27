@@ -101,23 +101,24 @@
 
         /* Bulle Gauche : Brand & Logo */
         .nav-brand {
-            padding: 6px 18px 6px 12px;
+            padding: 6px 18px 6px 8px;
             cursor: pointer;
-            gap: 10px;
+            gap: 12px;
         }
         .nav-brand:hover {
             transform: translateY(-2px);
         }
-        .logo-svg {
-            width: 26px;
-            height: 26px;
-            display: flex;
-            align-items: center;
+
+        /* Nouveau style pour l'image logo circulaire */
+        .logo-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%; /* Rend l'image parfaitement ronde */
+            object-fit: cover; /* Recadre sans déformer */
+            display: block;
+            box-shadow: 0 2px 6px rgba(7, 11, 25, 0.1);
         }
-        .logo-svg path {
-            stroke: var(--text-main);
-            stroke-width: 14;
-        }
+
         .brand-name {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
@@ -342,6 +343,10 @@
             .nav-brand {
                 padding: 8px;
             }
+            .logo-img {
+                width: 30px; /* Taille optimisée pour mobile */
+                height: 30px;
+            }
             .nav-btn {
                 padding: 8px 12px;
                 font-size: 0.9rem;
@@ -365,11 +370,7 @@
 
     <header>
         <div class="nav-pill nav-brand" onclick="showSection('home', null)">
-            <div class="logo-svg">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 15 80 L 50 25 L 85 80" fill="none" stroke-linejoin="miter" stroke-linecap="square"/>
-                </svg>
-            </div>
+            <img src="logo.png" alt="Logo Aura Dev" class="logo-img">
             <span class="brand-name">AURA DEV</span>
         </div>
 
@@ -452,7 +453,7 @@
             if (btnId) {
                 document.getElementById(btnId).classList.add('active-btn');
             }
-        } 
+        }
     </script>
 </body>
 </html>
