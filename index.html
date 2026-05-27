@@ -119,13 +119,25 @@
             transform: translateY(-2px);
         }
 
-        .logo-img {
+        /* Conteneur pour croper le logo avec le zoom */
+        .logo-wrapper {
             width: 32px;
             height: 32px;
             border-radius: 50%; 
-            object-fit: cover; 
-            display: block;
+            overflow: hidden; /* Coupe tout ce qui dépasse du cercle */
             box-shadow: 0 2px 6px rgba(6, 18, 44, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            transform: scale(1.4); /* Zoom de 40% dans l'image */
+            display: block;
         }
 
         .brand-name {
@@ -168,14 +180,14 @@
             padding: 6px;
         }
         .nav-contact .nav-btn {
-            /* Gradient Cyan -> Violet */
-            background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-purple) 100%);
+            /* Gradient Cyan -> Rose -> Violet */
+            background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-pink) 50%, var(--aura-purple) 100%);
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(89, 23, 153, 0.2);
+            box-shadow: 0 4px 15px rgba(89, 23, 153, 0.3);
         }
         .nav-contact .nav-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(89, 23, 153, 0.35);
+            box-shadow: 0 6px 20px rgba(89, 23, 153, 0.45);
             opacity: 0.95;
         }
 
@@ -361,7 +373,7 @@
             .nav-brand {
                 padding: 8px;
             }
-            .logo-img {
+            .logo-wrapper {
                 width: 30px; 
                 height: 30px;
             }
@@ -388,7 +400,9 @@
 
     <header>
         <div class="nav-pill nav-brand" onclick="showSection('home', null)">
-            <img src="logo.png" alt="Logo Aura Dev" class="logo-img">
+            <div class="logo-wrapper">
+                <img src="logo.png" alt="Logo Aura Dev" class="logo-img">
+            </div>
             <span class="brand-name">AURA DEV</span>
         </div>
 
