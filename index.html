@@ -398,7 +398,9 @@
 
         .contact-link:hover {
             transform: scale(1.02);
-            background: var(--aura-purple); /* Devient violet au survol */
+            /* Gradient Cyan -> Rose -> Violet au survol */
+            background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-pink) 50%, var(--aura-purple) 100%);
+            color: #ffffff;
             box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
         }
 
