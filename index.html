@@ -10,17 +10,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- VARIABLES DE COULEURS (BLEU, VIOLET, ROSE) --- */
+        /* --- VARIABLES DE COULEURS (BASÉES SUR TON LOGO, THÈME CLAIR) --- */
         :root {
-            --text-gradient: linear-gradient(135deg, #3a86ff 0%, #9d4edd 50%, #ff007a 100%);
-            --bg-page: #f6f8fc; 
-            --surface: rgba(255, 255, 255, 0.85); 
-            --card-border: rgba(255, 255, 255, 0.7);
-            --text-main: #070b19; 
+            /* Le dégradé principal pour le texte h1 : Cyan -> Rose -> Violet */
+            --text-gradient: linear-gradient(135deg, #4FAFE8 0%, #F39AA3 50%, #591799 100%);
+            
+            /* FOND BLANC PUR demandé */
+            --bg-page: #FFFFFF; 
+            
+            /* Effet verre dépoli clair pour les cartes et la nav */
+            --surface: rgba(255, 255, 255, 0.7); 
+            --card-border: rgba(0, 0, 0, 0.03);
+            
+            /* Couleurs de texte (Bleu Foncé du logo pour le texte principal) */
+            --text-main: #06122C; 
             --text-muted: #5c6479;
-            --aura-blue: #3a86ff;
-            --aura-purple: #9d4edd;
-            --aura-pink: #ff007a;
+            
+            /* Couleurs pures pour les auras d'arrière-plan et accents */
+            --aura-blue: #4FAFE8;   /* Cyan */
+            --aura-purple: #591799; /* Violet */
+            --aura-pink: #F39AA3;   /* Rose pastel */
         }
 
         /* --- STYLES GLOBAUX --- */
@@ -40,7 +49,7 @@
             flex-direction: column;
         }
 
-        /* --- HALOS DE COULEURS ÉLECTRIQUES DYNAMIQUES --- */
+        /* --- HALOS DE COULEURS EN FOND (AURAS) --- */
         .aura-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -52,7 +61,8 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(130px);
-            opacity: 0.25;
+            /* Opacité augmentée pour des couleurs plus vives */
+            opacity: 0.28; 
         }
         .blob-1 {
             width: 55vw; height: 55vw;
@@ -87,7 +97,7 @@
 
         .nav-pill {
             pointer-events: auto;
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--surface);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -95,7 +105,7 @@
             padding: 6px;
             display: flex;
             align-items: center;
-            box-shadow: 0 12px 35px rgba(7, 11, 25, 0.04);
+            box-shadow: 0 12px 35px rgba(6, 18, 44, 0.04);
             transition: transform 0.25s ease;
         }
 
@@ -109,14 +119,13 @@
             transform: translateY(-2px);
         }
 
-        /* Nouveau style pour l'image logo circulaire */
         .logo-img {
             width: 32px;
             height: 32px;
-            border-radius: 50%; /* Rend l'image parfaitement ronde */
-            object-fit: cover; /* Recadre sans déformer */
+            border-radius: 50%; 
+            object-fit: cover; 
             display: block;
-            box-shadow: 0 2px 6px rgba(7, 11, 25, 0.1);
+            box-shadow: 0 2px 6px rgba(6, 18, 44, 0.1);
         }
 
         .brand-name {
@@ -149,9 +158,9 @@
             background: rgba(7, 11, 25, 0.04);
         }
         .nav-btn.active-btn {
-            color: #ffffff;
-            background: var(--text-main);
-            box-shadow: 0 4px 12px rgba(7, 11, 25, 0.15);
+            color: #FFFFFF; /* Texte blanc sur bouton sombre */
+            background: var(--text-main); /* Bleu foncé du logo */
+            box-shadow: 0 4px 12px rgba(6, 18, 44, 0.2);
         }
 
         /* Bulle Droite : Contact CTA */
@@ -159,13 +168,14 @@
             padding: 6px;
         }
         .nav-contact .nav-btn {
+            /* Gradient Cyan -> Violet */
             background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-purple) 100%);
             color: #ffffff;
-            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);
+            box-shadow: 0 4px 15px rgba(89, 23, 153, 0.2);
         }
         .nav-contact .nav-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(157, 78, 221, 0.35);
+            box-shadow: 0 6px 20px rgba(89, 23, 153, 0.35);
             opacity: 0.95;
         }
 
@@ -229,7 +239,7 @@
             line-height: 1.4;
         }
 
-        /* --- PAGES CONTENU --- */
+        /* --- PAGES CONTENU (CARTES BENTO LIGHT) --- */
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2.2rem, 6vw, 3rem);
@@ -253,35 +263,43 @@
             border-radius: 28px;
             padding: 2.5rem;
             border: 1px solid var(--card-border);
-            box-shadow: 0 10px 35px rgba(7, 11, 25, 0.01);
+            box-shadow: 0 10px 35px rgba(6, 18, 44, 0.01);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .bento-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(157, 78, 221, 0.2);
-            box-shadow: 0 25px 50px rgba(157, 78, 221, 0.08);
+            border-color: rgba(157, 78, 221, 0.2); /* Accent Violet au survol */
+            box-shadow: 0 25px 50px rgba(6, 18, 44, 0.08);
+        }
+
+        /* NOUVEAU STYLE : En-tête de carte (Icône + Titre alignés) */
+        .card-header-inline {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .card-icon-wrapper {
             width: 50px;
             height: 50px;
             border-radius: 14px;
-            background: #ffffff;
-            border: 1px solid rgba(7, 11, 25, 0.04);
+            background: #ffffff; /* Fond blanc pur pour l'icône */
+            border: 1px solid rgba(6, 18, 44, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 20px rgba(7, 11, 25, 0.02);
+            box-shadow: 0 8px 20px rgba(6, 18, 44, 0.02);
+            flex-shrink: 0; /* Empêche l'icône de s'écraser */
         }
 
         .bento-card h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.35rem;
             font-weight: 700;
-            margin: 0 0 1rem 0;
+            margin: 0; /* Marge supprimée car gérée par flexbox */
             color: var(--text-main);
         }
 
@@ -298,7 +316,7 @@
             padding: 5rem 2rem;
         }
 
-        /* Contact Bento */
+        /* Contact Bento Box */
         .contact-bento-box {
             background: var(--surface);
             backdrop-filter: blur(16px);
@@ -308,7 +326,7 @@
             text-align: center;
             max-width: 750px;
             margin: 0 auto;
-            box-shadow: 0 10px 35px rgba(7, 11, 25, 0.01);
+            box-shadow: 0 10px 35px rgba(6, 18, 44, 0.01);
         }
 
         .contact-link {
@@ -317,17 +335,17 @@
             font-size: 1.25rem;
             font-weight: 700;
             color: #ffffff;
-            background: var(--text-main);
+            background: var(--text-main); /* Fond sombre */
             text-decoration: none;
             padding: 14px 38px;
             border-radius: 100px;
             transition: all 0.25s ease;
-            box-shadow: 0 8px 25px rgba(7, 11, 25, 0.1);
+            box-shadow: 0 8px 25px rgba(6, 18, 44, 0.1);
         }
 
         .contact-link:hover {
             transform: scale(1.02);
-            background: var(--aura-purple);
+            background: var(--aura-purple); /* Devient violet au survol */
             box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
         }
 
@@ -338,13 +356,13 @@
                 top: 1rem;
             }
             .brand-name {
-                display: none; /* Masque le nom textuel pour faire tenir les 3 bulles sur une seule ligne */
+                display: none; /* Masque le nom textuel sur mobile */
             }
             .nav-brand {
                 padding: 8px;
             }
             .logo-img {
-                width: 30px; /* Taille optimisée pour mobile */
+                width: 30px; 
                 height: 30px;
             }
             .nav-btn {
@@ -398,18 +416,24 @@
                 <h2 class="section-title">Nos Domaines d'Intervention</h2>
                 <div class="bento-grid">
                     <div class="bento-card">
-                        <div class="card-icon-wrapper">💻</div>
-                        <h3>Ingénierie Logicielle Web</h3>
+                        <div class="card-header-inline">
+                            <div class="card-icon-wrapper">💻</div>
+                            <h3>Ingénierie Logicielle Web</h3>
+                        </div>
                         <p>Création de sites vitrines élégants, robustes et fluides, et développement d'applications web adaptées à vos besoins.</p>
                     </div>
                     <div class="bento-card">
-                        <div class="card-icon-wrapper">🤖</div>
-                        <h3>Automatisation & Communauté</h3>
+                        <div class="card-header-inline">
+                            <div class="card-icon-wrapper">🤖</div>
+                            <h3>Automatisation & Communauté</h3>
+                        </div>
                         <p>Développement de bots Discord sur-mesure de haute qualité : mini-jeux intégrés, modération avancée et gestion de vos communautés.</p>
                     </div>
                     <div class="bento-card">
-                        <div class="card-icon-wrapper">📈</div>
-                        <h3>Solutions Algorithmiques Financières</h3>
+                        <div class="card-header-inline">
+                            <div class="card-icon-wrapper">📈</div>
+                            <h3>Solutions Algorithmiques Financières</h3>
+                        </div>
                         <p>Conception d'outils d'analyse de marché de crypto-monnaies et ingénierie de bots de trading performants.</p>
                     </div>
                 </div>
@@ -418,8 +442,8 @@
             <section id="projets" class="content-section">
                 <h2 class="section-title">Nos Réalisations</h2>
                 <div class="bento-card bento-full">
-                    <h3 style="font-size: 1.7rem; margin-bottom: 1.5rem;">Portfolio en cours de construction</h3>
-                    <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+                    <h3>Portfolio en cours de construction</h3>
+                    <p style="max-width: 600px; margin: 0 auto;">
                         De nouveaux projets liés au développement d'infrastructures web et à l'écosystème Discord seront dévoilés ici très prochainement.
                     </p>
                 </div>
@@ -427,8 +451,8 @@
 
             <section id="contact" class="content-section">
                 <div class="contact-bento-box">
-                    <h2 class="section-title" style="margin-bottom: 1rem; font-size: 2.6rem;">Prêt à lancer votre projet ?</h2>
-                    <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 500px; margin: 0 auto;">Discutons de vos idées et voyons comment l'ingénierie d'Aura Dev peut vous aider à les concrétiser.</p>
+                    <h2 class="section-title" style="margin-bottom: 1rem;">Prêt à lancer votre projet ?</h2>
+                    <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto;">Discutons de vos idées et voyons comment l'ingénierie d'Aura Dev peut vous aider à les concrétiser.</p>
                     <a href="mailto:contact@auradev.fr" class="contact-link">contact@auradev.fr</a>
                 </div>
             </section>
