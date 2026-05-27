@@ -7,27 +7,31 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- VARIABLES DE COULEURS MODERNISÉES --- */
+        /* --- VARIABLES DE COULEURS (BLEU, VIOLET, ROSE) --- */
         :root {
-            --bg-darkest-blue: #020513; 
-            --bg-mid-blue: #081230; 
-            --bg-purple: #3b0075; 
-            --accent-purple: #9d4edd;
-            --bg-page: #f8fafc; /* Fond très clair et propre */
-            --surface: #ffffff; /* Cartes blanches */
-            --text-main: #0f172a; /* Texte foncé lisible */
-            --text-muted: #64748b;
+            --text-gradient: linear-gradient(135deg, #3a86ff 0%, #9d4edd 50%, #ff007a 100%);
+            --bg-page: #f6f8fc; 
+            --surface: rgba(255, 255, 255, 0.85); 
+            --card-border: rgba(255, 255, 255, 0.7);
+            --text-main: #070b19; 
+            --text-muted: #5c6479;
+            --aura-blue: #3a86ff;
+            --aura-purple: #9d4edd;
+            --aura-pink: #ff007a;
         }
 
         /* --- STYLES GLOBAUX --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-page);
             color: var(--text-main);
             min-height: 100vh;
@@ -36,27 +40,37 @@
             flex-direction: column;
         }
 
-        /* --- EFFET "AURA" EN ARRIÈRE-PLAN --- */
-        .bg-shape {
+        /* --- HALOS DE COULEURS ÉLECTRIQUES DYNAMIQUES --- */
+        .aura-container {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
+            top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1;
-            opacity: 0.15; /* Très subtil sur fond blanc */
             pointer-events: none;
+            overflow: hidden;
         }
-        .shape-blue {
-            width: 60vw; height: 60vw;
-            background: var(--bg-mid-blue);
-            top: -20%; left: -10%;
+        .aura-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            opacity: 0.25;
         }
-        .shape-purple {
+        .blob-1 {
+            width: 55vw; height: 55vw;
+            background: var(--aura-blue);
+            top: -15%; left: -10%;
+        }
+        .blob-2 {
             width: 50vw; height: 50vw;
-            background: var(--bg-purple);
-            bottom: -20%; right: -10%;
+            background: var(--aura-purple);
+            bottom: -10%; right: -5%;
+        }
+        .blob-3 {
+            width: 35vw; height: 35vw;
+            background: var(--aura-pink);
+            top: 25%; right: 20%;
         }
 
-        /* --- NAVIGATION EN BULLES (TOP) --- */
+        /* --- NAVIGATION EN 3 BULLES SEPARÉES --- */
         header {
             position: fixed;
             top: 2rem;
@@ -64,29 +78,30 @@
             width: 100%;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 0 3rem;
             box-sizing: border-box;
             z-index: 100;
-            pointer-events: none; /* Laisse passer les clics dans le vide */
+            pointer-events: none; 
         }
 
         .nav-pill {
             pointer-events: auto;
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 50px;
-            padding: 0.5rem;
+            padding: 6px;
             display: flex;
             align-items: center;
-            box-shadow: 0 8px 32px rgba(2, 5, 19, 0.05);
-            transition: transform 0.3s ease;
+            box-shadow: 0 12px 35px rgba(7, 11, 25, 0.04);
+            transition: transform 0.25s ease;
         }
 
-        /* Bulle de gauche (Logo) */
+        /* Bulle Gauche : Brand & Logo */
         .nav-brand {
-            padding: 0.2rem 1.2rem 0.2rem 0.5rem;
+            padding: 6px 18px 6px 12px;
             cursor: pointer;
             gap: 10px;
         }
@@ -94,233 +109,267 @@
             transform: translateY(-2px);
         }
         .logo-svg {
-            width: 28px;
-            height: 28px;
-            /* Le logo est passé en bleu très foncé pour ressortir sur le blanc */
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+        }
+        .logo-svg path {
+            stroke: var(--text-main);
+            stroke-width: 14;
         }
         .brand-name {
-            font-weight: 800;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
             font-size: 1.1rem;
-            color: var(--bg-darkest-blue);
             letter-spacing: -0.5px;
+            color: var(--text-main);
         }
 
-        /* Bulle centrale (Menu) */
+        /* Bulle Centrale : Menu buttons */
         .nav-menu {
-            padding: 0.4rem 0.8rem;
-            gap: 0.5rem;
+            padding: 6px 8px;
+            gap: 4px;
         }
         .nav-btn {
             background: transparent;
             border: none;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-muted);
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
+            padding: 8px 20px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .nav-btn:hover {
-            color: var(--bg-darkest-blue);
-            background: rgba(0,0,0,0.03);
+            color: var(--text-main);
+            background: rgba(7, 11, 25, 0.04);
         }
         .nav-btn.active-btn {
-            color: var(--surface);
-            background: var(--bg-darkest-blue);
-            box-shadow: 0 4px 15px rgba(2, 5, 19, 0.2);
+            color: #ffffff;
+            background: var(--text-main);
+            box-shadow: 0 4px 12px rgba(7, 11, 25, 0.15);
         }
 
-        /* Bulle de droite (Contact) */
+        /* Bulle Droite : Contact CTA */
+        .nav-contact {
+            padding: 6px;
+        }
         .nav-contact .nav-btn {
-            background: linear-gradient(135deg, var(--bg-darkest-blue), var(--bg-purple));
-            color: white;
-            padding: 0.6rem 1.8rem;
-            box-shadow: 0 4px 15px rgba(59, 0, 117, 0.3);
+            background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-purple) 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(157, 78, 221, 0.2);
         }
         .nav-contact .nav-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(59, 0, 117, 0.4);
-            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(157, 78, 221, 0.35);
+            opacity: 0.95;
         }
 
-        /* --- ZONE DE CONTENU PRINCIPALE --- */
+        /* --- CONTEXTE DE CONTENU ET ANIMATIONS --- */
         main {
             flex-grow: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 8rem 2rem 4rem 2rem;
+            padding: 9rem 1.5rem 4rem 1.5rem;
             z-index: 10;
         }
 
         .content-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1000px;
         }
 
         .content-section {
             display: none;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(15px);
         }
 
         .content-section.active {
             display: block;
-            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: cleanFadeUp 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        @keyframes fadeUp {
+        @keyframes cleanFadeUp {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- DESIGN DES SECTIONS --- */
-        .section-header {
+        /* --- HERO ACCUEIL --- */
+        .hero-section {
             text-align: center;
-            margin-bottom: 4rem;
+            padding: 2rem 0;
         }
-        
-        .section-header h1 {
-            font-weight: 800;
+
+        .hero-section h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: clamp(4.5rem, 11vw, 7.5rem);
             margin: 0;
-            letter-spacing: -1.5px;
-            line-height: 1.1;
-            color: var(--bg-darkest-blue);
+            letter-spacing: -2px;
+            line-height: 0.95;
         }
 
         .gradient-text {
-            background: linear-gradient(135deg, var(--bg-darkest-blue), var(--accent-purple));
+            background: var(--text-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .section-header p {
+        .hero-section p {
+            font-size: clamp(1.3rem, 4vw, 1.9rem);
+            font-weight: 700;
             color: var(--text-muted);
-            max-width: 600px;
-            margin: 1.5rem auto 0 auto;
-            line-height: 1.6;
+            letter-spacing: -0.5px;
+            margin-top: 4rem;
+            line-height: 1.4;
         }
 
+        /* --- PAGES CONTENU --- */
         .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 2rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.2rem, 6vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 3rem;
             text-align: center;
-            color: var(--bg-darkest-blue);
+            color: var(--text-main);
         }
 
-        /* Grille des cartes (Expertises & Projets) */
-        .grid-layout {
+        .bento-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
-        .card {
+        .bento-card {
             background: var(--surface);
-            border-radius: 24px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 28px;
             padding: 2.5rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 10px 35px rgba(7, 11, 25, 0.01);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(2, 5, 19, 0.08);
+        .bento-card:hover {
+            transform: translateY(-6px);
             border-color: rgba(157, 78, 221, 0.2);
+            box-shadow: 0 25px 50px rgba(157, 78, 221, 0.08);
         }
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
+        .card-icon-wrapper {
+            width: 50px;
+            height: 50px;
             border-radius: 14px;
-            background: linear-gradient(135deg, var(--bg-darkest-blue), var(--bg-purple));
+            background: #ffffff;
+            border: 1px solid rgba(7, 11, 25, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            color: white;
             font-size: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(7, 11, 25, 0.02);
         }
 
-        .card h3 {
-            font-size: 1.3rem;
+        .bento-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
             font-weight: 700;
             margin: 0 0 1rem 0;
-            color: var(--bg-darkest-blue);
+            color: var(--text-main);
         }
 
-        .card p {
+        .bento-card p {
             color: var(--text-muted);
             line-height: 1.6;
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.05rem;
         }
 
-        /* Section Contact / Call to action */
-        .contact-box {
-            background: var(--surface);
-            border-radius: 30px;
-            padding: 4rem 2rem;
+        .bento-full {
+            grid-column: 1 / -1;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-            max-width: 700px;
+            padding: 5rem 2rem;
+        }
+
+        /* Contact Bento */
+        .contact-bento-box {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 32px;
+            padding: 5rem 2rem;
+            text-align: center;
+            max-width: 750px;
             margin: 0 auto;
+            box-shadow: 0 10px 35px rgba(7, 11, 25, 0.01);
         }
-        
-        .contact-email {
+
+        .contact-link {
             display: inline-block;
-            margin-top: 2rem;
-            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--accent-purple);
+            color: #ffffff;
+            background: var(--text-main);
             text-decoration: none;
-            padding: 1rem 2.5rem;
-            border: 2px solid var(--accent-purple);
-            border-radius: 50px;
-            transition: all 0.3s ease;
+            padding: 14px 38px;
+            border-radius: 100px;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 25px rgba(7, 11, 25, 0.1);
         }
 
-        .contact-email:hover {
-            background: var(--accent-purple);
-            color: white;
-            box-shadow: 0 10px 25px rgba(157, 78, 221, 0.3);
+        .contact-link:hover {
+            transform: scale(1.02);
+            background: var(--aura-purple);
+            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
         }
 
-        /* Responsif pour mobile */
+        /* --- RESPONSIVE MOBILE SANS GAP NI EMPILAGE --- */
         @media (max-width: 768px) {
             header {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-                align-items: center;
+                padding: 0 1rem;
+                top: 1rem;
             }
-            main {
-                padding-top: 14rem;
-            }
-            .section-header h1 {
-                font-size: 2.5rem;
+            .brand-name {
+                display: none; /* Masque le nom textuel pour faire tenir les 3 bulles sur une seule ligne */
             }
             .nav-brand {
-                padding: 0.5rem 1.5rem;
+                padding: 8px;
+            }
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+            .nav-contact .nav-btn {
+                padding: 8px 14px;
+            }
+            main {
+                padding-top: 7.5rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-shape shape-blue"></div>
-    <div class="bg-shape shape-purple"></div>
+    <div class="aura-container">
+        <div class="aura-blob blob-1"></div>
+        <div class="aura-blob blob-2"></div>
+        <div class="aura-blob blob-3"></div>
+    </div>
 
     <header>
         <div class="nav-pill nav-brand" onclick="showSection('home', null)">
-            <svg class="logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 15 80 L 50 25 L 85 80" stroke="#020513" stroke-width="12" fill="none" stroke-linejoin="miter" stroke-linecap="square"/>
-            </svg>
+            <div class="logo-svg">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 15 80 L 50 25 L 85 80" fill="none" stroke-linejoin="miter" stroke-linecap="square"/>
+                </svg>
+            </div>
             <span class="brand-name">AURA DEV</span>
         </div>
 
@@ -338,30 +387,27 @@
         <div class="content-container">
             
             <section id="home" class="content-section active">
-                <div class="section-header">
-                    <h1 class="gradient-text" style="font-size: clamp(4rem, 10vw, 7rem); font-family: 'Space Mono', monospace;">AURA DEV</h1>
-                    
-                    <p style="font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 600; color: var(--text-muted); letter-spacing: 1.5px; margin-top: 3.5rem; line-height: 1.5;">
-                        Ingénierie &<br>Solutions Numériques
-                    </p>
+                <div class="hero-section">
+                    <h1 class="gradient-text">AURA DEV</h1>
+                    <p>Ingénierie &<br>Solutions Numériques</p>
                 </div>
             </section>
 
             <section id="expertises" class="content-section">
                 <h2 class="section-title">Nos Domaines d'Intervention</h2>
-                <div class="grid-layout">
-                    <div class="card">
-                        <div class="card-icon">💻</div>
+                <div class="bento-grid">
+                    <div class="bento-card">
+                        <div class="card-icon-wrapper">💻</div>
                         <h3>Ingénierie Logicielle Web</h3>
                         <p>Création de sites vitrines élégants, robustes et fluides, et développement d'applications web adaptées à vos besoins.</p>
                     </div>
-                    <div class="card">
-                        <div class="card-icon">🤖</div>
+                    <div class="bento-card">
+                        <div class="card-icon-wrapper">🤖</div>
                         <h3>Automatisation & Communauté</h3>
                         <p>Développement de bots Discord sur-mesure de haute qualité : mini-jeux intégrés, modération avancée et gestion de vos communautés.</p>
                     </div>
-                    <div class="card">
-                        <div class="card-icon">📈</div>
+                    <div class="bento-card">
+                        <div class="card-icon-wrapper">📈</div>
                         <h3>Solutions Algorithmiques Financières</h3>
                         <p>Conception d'outils d'analyse de marché de crypto-monnaies et ingénierie de bots de trading performants.</p>
                     </div>
@@ -370,19 +416,19 @@
 
             <section id="projets" class="content-section">
                 <h2 class="section-title">Nos Réalisations</h2>
-                <div class="card" style="text-align: center; padding: 4rem 2rem;">
-                    <h3>Portfolio en cours de construction</h3>
-                    <p style="margin-top: 1rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                <div class="bento-card bento-full">
+                    <h3 style="font-size: 1.7rem; margin-bottom: 1.5rem;">Portfolio en cours de construction</h3>
+                    <p style="max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
                         De nouveaux projets liés au développement d'infrastructures web et à l'écosystème Discord seront dévoilés ici très prochainement.
                     </p>
                 </div>
             </section>
 
             <section id="contact" class="content-section">
-                <div class="contact-box">
-                    <h2 class="section-title" style="margin-bottom: 1rem;">Prêt à lancer votre projet ?</h2>
-                    <p style="color: var(--text-muted); font-size: 1.1rem;">Discutons de vos idées et voyons comment l'ingénierie d'Aura Dev peut vous aider à les concrétiser.</p>
-                    <a href="mailto:contact@auradev.fr" class="contact-email">contact@auradev.fr</a>
+                <div class="contact-bento-box">
+                    <h2 class="section-title" style="margin-bottom: 1rem; font-size: 2.6rem;">Prêt à lancer votre projet ?</h2>
+                    <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 500px; margin: 0 auto;">Discutons de vos idées et voyons comment l'ingénierie d'Aura Dev peut vous aider à les concrétiser.</p>
+                    <a href="mailto:contact@auradev.fr" class="contact-link">contact@auradev.fr</a>
                 </div>
             </section>
 
@@ -391,20 +437,18 @@
 
     <script>
         function showSection(sectionId, btnId) {
-            // 1. Cacher toutes les sections
+            // Cacher les sections actives
             document.querySelectorAll('.content-section').forEach(sec => {
                 sec.classList.remove('active');
             });
 
-            // 2. Retirer l'état actif de tous les boutons du menu
+            // Réinitialiser l'état des boutons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active-btn');
             });
 
-            // 3. Afficher la bonne section
+            // Activer la bonne section et bouton
             document.getElementById(sectionId).classList.add('active');
-
-            // 4. Mettre en surbrillance le bouton cliqué (s'il y en a un)
             if (btnId) {
                 document.getElementById(btnId).classList.add('active-btn');
             }
