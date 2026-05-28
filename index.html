@@ -12,27 +12,17 @@
     <style>
         /* --- VARIABLES DE COULEURS (BASÉES SUR TON LOGO, THÈME CLAIR) --- */
         :root {
-            /* Le dégradé principal pour le texte h1 : Cyan -> Rose -> Violet */
             --text-gradient: linear-gradient(135deg, #4FAFE8 0%, #F39AA3 50%, #591799 100%);
-            
-            /* FOND BLANC PUR demandé */
             --bg-page: #FFFFFF; 
-            
-            /* Effet verre dépoli clair pour les cartes et la nav */
             --surface: rgba(255, 255, 255, 0.7); 
             --card-border: rgba(0, 0, 0, 0.03);
-            
-            /* Couleurs de texte (Bleu Foncé du logo pour le texte principal) */
             --text-main: #06122C; 
             --text-muted: #5c6479;
-            
-            /* Couleurs pures pour les auras d'arrière-plan et accents */
-            --aura-blue: #4FAFE8;   /* Cyan */
-            --aura-purple: #591799; /* Violet */
-            --aura-pink: #F39AA3;   /* Rose pastel */
+            --aura-blue: #4FAFE8;
+            --aura-purple: #591799;
+            --aura-pink: #F39AA3;
         }
 
-        /* --- STYLES GLOBAUX --- */
         *, *::before, *::after {
             box-sizing: border-box;
         }
@@ -49,7 +39,6 @@
             flex-direction: column;
         }
 
-        /* --- HALOS DE COULEURS EN FOND (AURAS) --- */
         .aura-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -61,7 +50,6 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(130px);
-            /* Opacité augmentée pour des couleurs plus vives */
             opacity: 0.28; 
         }
         .blob-1 {
@@ -80,14 +68,14 @@
             top: 25%; right: 20%;
         }
 
-        /* --- NAVIGATION EN 3 BULLES SEPARÉES --- */
+        /* --- NAVIGATION EN 3 BULLES --- */
         header {
             position: fixed;
             top: 2rem;
             left: 0;
             width: 100%;
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
             padding: 0 3rem;
             box-sizing: border-box;
@@ -109,22 +97,21 @@
             transition: transform 0.25s ease;
         }
 
-        /* Bulle Gauche : Brand & Logo */
         .nav-brand {
             padding: 6px 18px 6px 8px;
             cursor: pointer;
             gap: 12px;
+            justify-self: start;
         }
         .nav-brand:hover {
             transform: translateY(-2px);
         }
 
-        /* Conteneur pour croper le logo avec le zoom */
         .logo-wrapper {
             width: 32px;
             height: 32px;
             border-radius: 50%; 
-            overflow: hidden; /* Coupe tout ce qui dépasse du cercle */
+            overflow: hidden;
             box-shadow: 0 2px 6px rgba(6, 18, 44, 0.1);
             display: flex;
             align-items: center;
@@ -136,7 +123,9 @@
             width: 100%;
             height: 100%;
             object-fit: cover; 
-            transform: scale(1.4); /* Zoom de 40% dans l'image */
+            transform: scale(1.8);
+            /* Remonter l'image verticalement après zoom */
+            object-position: 50% 35%;
             display: block;
         }
 
@@ -148,10 +137,12 @@
             color: var(--text-main);
         }
 
-        /* Bulle Centrale : Menu buttons */
+        /* Bulle Centrale : légèrement décalée à gauche */
         .nav-menu {
             padding: 6px 8px;
             gap: 4px;
+            justify-self: center;
+            transform: translateX(-12px); /* décalage vers la gauche */
         }
         .nav-btn {
             background: transparent;
@@ -170,17 +161,16 @@
             background: rgba(7, 11, 25, 0.04);
         }
         .nav-btn.active-btn {
-            color: #FFFFFF; /* Texte blanc sur bouton sombre */
-            background: var(--text-main); /* Bleu foncé du logo */
+            color: #FFFFFF;
+            background: var(--text-main);
             box-shadow: 0 4px 12px rgba(6, 18, 44, 0.2);
         }
 
-        /* Bulle Droite : Contact CTA */
         .nav-contact {
             padding: 6px;
+            justify-self: end;
         }
         .nav-contact .nav-btn {
-            /* Gradient Cyan -> Rose -> Violet */
             background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-pink) 50%, var(--aura-purple) 100%);
             color: #ffffff;
             box-shadow: 0 4px 15px rgba(89, 23, 153, 0.3);
@@ -191,7 +181,6 @@
             opacity: 0.95;
         }
 
-        /* --- CONTEXTE DE CONTENU ET ANIMATIONS --- */
         main {
             flex-grow: 1;
             display: flex;
@@ -221,24 +210,20 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- HERO ACCUEIL --- */
         .hero-section {
             text-align: center;
             padding: 2rem 0;
         }
 
-        /* NOUVEAU STYLE : Bulle Apple OS avec reflet par-dessus */
         .hero-title-bubble {
             position: relative;
             display: inline-block;
             padding: clamp(0.8rem, 2vw, 1.5rem) clamp(2rem, 6vw, 4.5rem);
             border-radius: 200px;
             box-shadow: 0 20px 40px rgba(6, 18, 44, 0.06);
-            /* Force un nouveau contexte pour isoler le gradient et éviter le bug du détourage */
             transform: translateZ(0); 
         }
 
-        /* Le fond en verre (isolé derrière le texte) */
         .hero-title-bubble::before {
             content: '';
             position: absolute;
@@ -252,7 +237,6 @@
             z-index: -1;
         }
 
-        /* Le reflet glacé Apple (isolé au-dessus du texte) */
         .hero-title-bubble::after {
             content: '';
             position: absolute;
@@ -274,7 +258,7 @@
             letter-spacing: -2px;
             line-height: 0.95;
             position: relative;
-            z-index: 1; /* Le texte reste entre le fond et le reflet */
+            z-index: 1;
         }
 
         .gradient-text {
@@ -292,7 +276,6 @@
             line-height: 1.4;
         }
 
-        /* --- PAGES CONTENU (CARTES BENTO LIGHT) --- */
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: clamp(2.2rem, 6vw, 3rem);
@@ -322,11 +305,10 @@
 
         .bento-card:hover {
             transform: translateY(-6px);
-            border-color: rgba(157, 78, 221, 0.2); /* Accent Violet au survol */
+            border-color: rgba(157, 78, 221, 0.2);
             box-shadow: 0 25px 50px rgba(6, 18, 44, 0.08);
         }
 
-        /* En-tête de carte (Icône + Titre alignés) */
         .card-header-inline {
             display: flex;
             align-items: center;
@@ -338,21 +320,21 @@
             width: 50px;
             height: 50px;
             border-radius: 14px;
-            background: #ffffff; /* Fond blanc pur pour l'icône */
+            background: #ffffff;
             border: 1px solid rgba(6, 18, 44, 0.04);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             box-shadow: 0 8px 20px rgba(6, 18, 44, 0.02);
-            flex-shrink: 0; /* Empêche l'icône de s'écraser */
+            flex-shrink: 0;
         }
 
         .bento-card h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.35rem;
             font-weight: 700;
-            margin: 0; /* Marge supprimée car gérée par flexbox */
+            margin: 0;
             color: var(--text-main);
         }
 
@@ -369,7 +351,6 @@
             padding: 5rem 2rem;
         }
 
-        /* Contact Bento Box */
         .contact-bento-box {
             background: var(--surface);
             backdrop-filter: blur(16px);
@@ -388,7 +369,7 @@
             font-size: 1.25rem;
             font-weight: 700;
             color: #ffffff;
-            background: var(--text-main); /* Fond sombre */
+            background: var(--text-main);
             text-decoration: none;
             padding: 14px 38px;
             border-radius: 100px;
@@ -398,20 +379,18 @@
 
         .contact-link:hover {
             transform: scale(1.02);
-            /* Gradient Cyan -> Rose -> Violet au survol */
             background: linear-gradient(135deg, var(--aura-blue) 0%, var(--aura-pink) 50%, var(--aura-purple) 100%);
             color: #ffffff;
             box-shadow: 0 10px 30px rgba(157, 78, 221, 0.3);
         }
 
-        /* --- RESPONSIVE MOBILE SANS GAP NI EMPILAGE --- */
         @media (max-width: 768px) {
             header {
                 padding: 0 1rem;
                 top: 1rem;
             }
             .brand-name {
-                display: none; /* Masque le nom textuel sur mobile */
+                display: none;
             }
             .nav-brand {
                 padding: 8px;
@@ -521,17 +500,12 @@
 
     <script>
         function showSection(sectionId, btnId) {
-            // Cacher les sections actives
             document.querySelectorAll('.content-section').forEach(sec => {
                 sec.classList.remove('active');
             });
-
-            // Réinitialiser l'état des boutons
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('active-btn');
             });
-
-            // Activer la bonne section et bouton
             document.getElementById(sectionId).classList.add('active');
             if (btnId) {
                 document.getElementById(btnId).classList.add('active-btn');
